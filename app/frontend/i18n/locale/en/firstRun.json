@@ -6,7 +6,14 @@
     "USERNAME": "Username",
     "USERNAME_PLACEHOLDER": "RaveningAbyss",
     "PASSWORD": "Password",
-    "GET_STARTED": "Get Started"
+    "GET_STARTED": "Get Started",
+    "ERRORS": {
+      "USERNAME_REQUIRED": "Username is required",
+      "PASSWORD_REQUIRED": "Password is required",
+      "PASSWORD_MIN": "Password must be at least 8 characters",
+      "PASSWORD_UPPERCASE": "Password must contain at least one uppercase letter",
+      "PASSWORD_SPECIAL": "Password must contain at least one special character"
+    }
   }
 }
 

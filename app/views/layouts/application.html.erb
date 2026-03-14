@@ -20,6 +20,11 @@
     <%= vite_client_tag %>
     <%= vite_javascript_tag 'application' %>
     <%= vite_stylesheet_tag 'application' %>
+    <script>
+      window.globalConfig = {
+        hostUrl: '<%= Rails.application.credentials.config[:host_url] %>'
+      }
+    </script>
   </head>
 
   <body>
