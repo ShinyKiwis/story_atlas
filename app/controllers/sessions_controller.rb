@@ -1,7 +1,7 @@
 class SessionsController < ApplicationController
   before_action :ensure_user_exists, only: :new
   
-  def new
+  def create
   end
 
   private

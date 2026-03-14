@@ -2,11 +2,11 @@
 import FirstRunAPI from 'api/firstRun';
 import { useForm } from 'vee-validate';
 import { object, string } from 'yup';
-
 import { ref, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import Icon from 'components/Icon.vue';
+import AppTitle from 'components/AppTitle.vue';
 
 const { t } = useI18n();
 const router = useRouter();
@@ -42,7 +42,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-grid bg-base flex items-center justify-center">
+  <div class="h-screen bg-grid bg-base flex items-center justify-center">
     <Transition name="scene" mode="out-in">
 
       <div v-if="phase === 'intro'" key="intro" class="text-center select-none">
@@ -55,9 +55,7 @@ onMounted(() => {
       </div>
 
       <div v-else key="form" class="w-full max-w-md px-4">
-        <h1 class="text-center text-4xl font-extrabold font-sans tracking-widest mb-6">
-          <span class="text-white">Story</span><span class="text-sky-400 atlas-glow">Atlas</span>
-        </h1>
+        <AppTitle />
         <div class="rounded-2xl border border-white/10 bg-white/5 p-8 backdrop-blur-sm">
           <h2 class="mb-1 text-2xl font-bold text-white font-sans">{{ t('FIRST_RUN.WELCOME') }}</h2>
           <p class="mb-6 text-sm text-white/40 font-mono">{{ t('FIRST_RUN.SUBTITLE') }}</p>
@@ -141,10 +139,6 @@ onMounted(() => {
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(6px); }
   to   { opacity: 1; transform: translateY(0); }
-}
-
-.atlas-glow {
-  text-shadow: 0 0 20px rgba(56, 189, 248, 0.4), 0 0 60px rgba(56, 189, 248, 0.15);
 }
 
 .scene-enter-active { transition: opacity 0.6s ease, transform 0.6s ease; }

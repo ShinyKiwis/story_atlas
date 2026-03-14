@@ -1,0 +1,14 @@
+{
+  "SESSION": {
+    "WELCOME_BACK": "Welcome back (•˕ •マ.ᐟ",
+    "SUBTITLE": "Login to continue",
+    "USERNAME": "Username",
+    "USERNAME_PLACEHOLDER": "Username",
+    "PASSWORD": "Password",
+    "LOGIN": "Login",
+    "ERRORS": {
+      "USERNAME_REQUIRED": "Username is required",
+      "PASSWORD_REQUIRED": "Password is required"
+    }
+  }
+}
