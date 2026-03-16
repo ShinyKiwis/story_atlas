@@ -11,6 +11,10 @@ module Authentication
     def require_authenticated_access
       before_action :require_authentication
     end
+
+    def restore_authenticated_access
+      before_action :restore_authentication
+    end
   end
 
   private

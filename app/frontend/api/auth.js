@@ -5,8 +5,8 @@ class AuthAPI extends ApiClient {
     super('sessions');
   }
 
-  login() {
-    console.log(client);
+  login(username, password) {
+    return this.create({ username, password })
   }
 
   logout() {

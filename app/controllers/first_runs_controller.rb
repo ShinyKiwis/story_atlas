@@ -1,5 +1,8 @@
 class FirstRunsController < ApplicationController
 
+  def new
+  end
+
   def create
     user = User.create!(user_params)
     start_new_session_for user

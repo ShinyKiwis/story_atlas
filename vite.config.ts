@@ -12,7 +12,8 @@ export default defineConfig({
   resolve: {
     alias: {
       components: new URL('./app/frontend/components', import.meta.url).pathname,
-      api: new URL('./app/frontend/api', import.meta.url).pathname
+      api: new URL('./app/frontend/api', import.meta.url).pathname,
+      stores: new URL('./app/frontend/stores', import.meta.url).pathname,
     }
   }
 })

@@ -3,8 +3,14 @@ import { useForm } from 'vee-validate';
 import { object, string } from 'yup';
 import { useI18n } from 'vue-i18n';
 import { ref } from 'vue';
+import { storeToRefs } from 'pinia';
 import Icon from 'components/Icon.vue';
 import AppTitle from 'components/AppTitle.vue';
+import useUserStore from 'stores/useUserStore';
+
+const userStore = useUserStore();
+const { user, uiFlags } = storeToRefs(userStore);
+const { fetchUser } = userStore;
 
 const { t } = useI18n();
 const { values, errors, defineField, meta, handleSubmit } = useForm({
@@ -17,12 +23,17 @@ const { values, errors, defineField, meta, handleSubmit } = useForm({
 
 const phase = ref('intro');
 const showPassword = ref(false);
+const loginError = ref(null);
 
 const [username, usernameAttrs] = defineField('username');
 const [password, passwordAttrs] = defineField('password');
 
 const onSubmit= handleSubmit(async data => {
-  console.log('here')
+  try {
+    await fetchUser(data.username, data.password);
+  } catch (error) {
+    loginError.value = error.message;
+  }
 })
 
 </script>
@@ -36,6 +47,7 @@ const onSubmit= handleSubmit(async data => {
 
         <form @submit='onSubmit'>
           <div class="space-y-4">
+            <p v-if="loginError" class="mt-1.5 text-xs text-red-400 font-mono">{{ loginError }}</p>
             <div>
               <label class="mb-1 block text-xs text-white/50 font-mono uppercase tracking-widest">{{ t('SESSION.USERNAME') }}</label>
               <input
@@ -67,10 +79,15 @@ const onSubmit= handleSubmit(async data => {
           </div>
 
           <button
-            :disabled="!meta.valid"
-            class="mt-6 w-full rounded-lg bg-sky-500 py-2.5 font-bold text-white font-sans hover:bg-sky-400 transition cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+            :disabled="!meta.valid || uiFlags.isFetching"
+            class="mt-6 w-full rounded-lg bg-sky-500 py-2.5 font-bold text-white font-sans hover:bg-sky-400 transition cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center"
           >
-            {{ t('SESSION.LOGIN') }}
+            <span v-if="uiFlags.isFetching" class="animate-spin">
+              <Icon name="loader-circle" class="w-5 h-5" />
+            </span>
+            <span v-else>
+              {{ t('SESSION.LOGIN') }}
+            </span>
           </button>
         </form>
       </div>
