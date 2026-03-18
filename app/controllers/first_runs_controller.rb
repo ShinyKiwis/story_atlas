@@ -1,4 +1,6 @@
 class FirstRunsController < ApplicationController
+  restore_authenticated_access
+  before_action :redirect_if_authenticated, only: [:new]
 
   def new
   end

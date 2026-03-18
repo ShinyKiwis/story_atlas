@@ -28,4 +28,6 @@
 #       enabled: "ON"
 
 en:
-  hello: "Hello world"
+  auth:
+    errors:
+      invalid_credentials: "Invalid username or password"

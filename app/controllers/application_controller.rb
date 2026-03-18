@@ -6,6 +6,10 @@ class ApplicationController < ActionController::Base
   private
 
   def render_rejection
-    render json: { error: 'Invalid username or password' }, status: :unauthorized
+    render json: { error: I18n.t('auth.errors.invalid_credentials') }, status: :unauthorized
+  end
+
+  def redirect_if_authenticated
+    redirect_to root_url if signed_in?
   end
 end

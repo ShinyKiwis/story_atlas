@@ -1,10 +1,10 @@
 <script setup>
-import FirstRunAPI from 'api/firstRun';
 import { useForm } from 'vee-validate';
 import { object, string } from 'yup';
 import { ref, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
+import FirstRunAPI from 'api/firstRun';
 import Icon from 'components/Icon.vue';
 import AppTitle from 'components/AppTitle.vue';
 
@@ -30,7 +30,7 @@ const [password, passwordAttrs] = defineField('password');
 const onSubmit= handleSubmit(async data => {
   try {
     await FirstRunAPI.create(data)
-    router.push({name: 'dashboard'})
+    router.push({name: 'login'})
   } catch(error) {
     console.error(error.message);
   }
@@ -42,7 +42,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="h-screen bg-grid bg-base flex items-center justify-center">
+  <div class="h-full flex items-center justify-center">
     <Transition name="scene" mode="out-in">
 
       <div v-if="phase === 'intro'" key="intro" class="text-center select-none">
@@ -56,7 +56,7 @@ onMounted(() => {
 
       <div v-else key="form" class="w-full max-w-md px-4">
         <AppTitle />
-        <div class="rounded-2xl border border-white/10 bg-white/5 p-8 backdrop-blur-sm">
+        <div class="rounded-2xl border border-white/10 bg-white/5 p-8 backdrop-blur-sm mt-6">
           <h2 class="mb-1 text-2xl font-bold text-white font-sans">{{ t('FIRST_RUN.WELCOME') }}</h2>
           <p class="mb-6 text-sm text-white/40 font-mono">{{ t('FIRST_RUN.SUBTITLE') }}</p>
 

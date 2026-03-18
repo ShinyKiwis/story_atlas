@@ -1,26 +1,36 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import AuthAPI from 'api/auth';
+import UserAPI from 'api/user';
 
 const useUserStore = defineStore('user', () => {
   const user = ref(null);
   const uiFlags = ref({
-   isFetching: false
+   isAuthenticating: false
   })
 
-  const fetchUser = async (username, password) => {
-    uiFlags.value.isFetching = true;
+  const getCurrentUser = async() => {
+    try {
+      const response = await UserAPI.me();
+      user.value = response.data;
+    } catch(err) {
+      user.value = null;
+    }
+  };
+
+  const authenticateUser = async (username, password) => {
+    uiFlags.value.isAuthenticating = true;
     try {
       const response = await AuthAPI.login(username, password);
       user.value = response.data;
     } catch(err) {
       throw new Error(err.response.data.error);
     } finally {
-      uiFlags.value.isFetching = false;
+      uiFlags.value.isAuthenticating = false;
     }
   }
   
-  return { user, uiFlags, fetchUser };
+  return { user, uiFlags, getCurrentUser, authenticateUser };
 })
 
 export default useUserStore;

@@ -2,6 +2,7 @@
 import { useForm } from 'vee-validate';
 import { object, string } from 'yup';
 import { useI18n } from 'vue-i18n';
+import { useRouter } from 'vue-router';
 import { ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import Icon from 'components/Icon.vue';
@@ -10,9 +11,10 @@ import useUserStore from 'stores/useUserStore';
 
 const userStore = useUserStore();
 const { user, uiFlags } = storeToRefs(userStore);
-const { fetchUser } = userStore;
+const { authenticateUser } = userStore;
 
 const { t } = useI18n();
+const router = useRouter();
 const { values, errors, defineField, meta, handleSubmit } = useForm({
   validationSchema: object({
     username: string().required(() => t('SESSION.ERRORS.USERNAME_REQUIRED')),
@@ -30,7 +32,8 @@ const [password, passwordAttrs] = defineField('password');
 
 const onSubmit= handleSubmit(async data => {
   try {
-    await fetchUser(data.username, data.password);
+    await authenticateUser(data.username, data.password);
+    router.push({name: 'dashboard'});
   } catch (error) {
     loginError.value = error.message;
   }
@@ -38,10 +41,10 @@ const onSubmit= handleSubmit(async data => {
 
 </script>
 <template>
-  <div class="h-screen bg-grid bg-base flex items-center justify-center">
+  <div class="h-full flex items-center justify-center">
     <div>
       <AppTitle />
-      <div class="rounded-2xl border border-white/10 bg-white/5 p-8 backdrop-blur-sm">
+      <div class="rounded-2xl border border-white/10 bg-white/5 p-8 backdrop-blur-sm mt-6">
         <h2 class="mb-1 text-2xl font-bold text-white font-sans">{{ t('SESSION.WELCOME_BACK') }}</h2>
         <p class="mb-6 text-sm text-white/40 font-mono">{{ t('SESSION.SUBTITLE') }}</p>
 
@@ -79,10 +82,10 @@ const onSubmit= handleSubmit(async data => {
           </div>
 
           <button
-            :disabled="!meta.valid || uiFlags.isFetching"
+            :disabled="!meta.valid || uiFlags.isAuthenticating"
             class="mt-6 w-full rounded-lg bg-sky-500 py-2.5 font-bold text-white font-sans hover:bg-sky-400 transition cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center"
           >
-            <span v-if="uiFlags.isFetching" class="animate-spin">
+            <span v-if="uiFlags.isAuthenticating" class="animate-spin">
               <Icon name="loader-circle" class="w-5 h-5" />
             </span>
             <span v-else>

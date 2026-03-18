@@ -1,7 +1,7 @@
 class SessionsController < ApplicationController
   restore_authenticated_access
   before_action :ensure_user_exists, only: :new
-  # before_action :redirect_if_authenticated, only: [:new, :create]
+  before_action :redirect_if_authenticated, only: [:new]
 
   def new
   end
@@ -19,9 +19,5 @@ class SessionsController < ApplicationController
 
   def ensure_user_exists
     redirect_to first_run_url if User.none?
-  end
-
-  def redirect_if_authenticated
-    redirect_to root_url if signed_in?
   end
 end
