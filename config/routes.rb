@@ -9,7 +9,8 @@ Rails.application.routes.draw do
     post '/first-run', to: 'first_runs#create'
     get '/users/me', to: 'users#me'
 
-    resources :sessions, only: %i[create destroy]
+    resources :sessions, only: %i[create]
+    delete '/sessions', to: 'sessions#destroy'
   end
 
 end

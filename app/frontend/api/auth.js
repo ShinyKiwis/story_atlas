@@ -10,7 +10,7 @@ class AuthAPI extends ApiClient {
   }
 
   logout() {
-    
+    return this.client.delete(`/${this.resource}`);
   }
 }
 

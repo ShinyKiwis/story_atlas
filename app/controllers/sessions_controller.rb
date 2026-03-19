@@ -15,6 +15,11 @@ class SessionsController < ApplicationController
     end
   end
 
+  def destroy
+    reset_authentication
+    head :no_content
+  end
+
   private
 
   def ensure_user_exists

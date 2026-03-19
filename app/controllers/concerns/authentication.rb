@@ -34,6 +34,10 @@ module Authentication
     redirect_to login_url
   end
 
+  def reset_authentication
+    cookies.delete(:session_token)
+  end
+
   def resume_session(session)
     session.resume user_agent: request.user_agent, ip_address: request.remote_ip
     authenticated_as session

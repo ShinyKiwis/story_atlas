@@ -30,7 +30,12 @@ const useUserStore = defineStore('user', () => {
     }
   }
   
-  return { user, uiFlags, getCurrentUser, authenticateUser };
+  const logout = async () => {
+    await AuthAPI.logout();
+    user.value = null;
+  };
+
+  return { user, uiFlags, getCurrentUser, authenticateUser, logout };
 })
 
 export default useUserStore;
